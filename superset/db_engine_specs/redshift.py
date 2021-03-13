@@ -14,19 +14,20 @@
 # KIND, either express or implied.  See the License for the
 # specific language governing permissions and limitations
 # under the License.
-# pylint: disable=C,R,W
 from superset.db_engine_specs.postgres import PostgresBaseEngineSpec
 
 
 class RedshiftEngineSpec(PostgresBaseEngineSpec):
     engine = "redshift"
+    engine_name = "Amazon Redshift"
     max_column_name_length = 127
 
     @staticmethod
-    def mutate_label(label):
+    def _mutate_label(label: str) -> str:
         """
         Redshift only supports lowercase column names and aliases.
-        :param str label: Original label which might include uppercase letters
-        :return: String that is supported by the database
+
+        :param label: Expected expression label
+        :return: Conditionally mutated label
         """
         return label.lower()
